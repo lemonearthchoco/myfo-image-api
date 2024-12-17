@@ -1,4 +1,4 @@
-import { S3 } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand }  from '@aws-sdk/client-s3';
 import busboy, { Busboy } from 'busboy';
 
 export async function imageUploadHandler(event: any) {
@@ -7,6 +7,16 @@ export async function imageUploadHandler(event: any) {
     for (const file of formData.image) {
         console.log(file);
     }
+
+    const command = new PutObjectCommand({
+        Bucket: 'lemonearthchoco',
+        Key: `myfo/{year}/{month}`,
+        Body: ''
+    });
+    
+    const s3Client = new S3Client({ region: 'ap-northeast2 '})
+    const result = await s3Client.send(command);
+
     return {
         statusCode: 200,
         body: JSON.stringify(
