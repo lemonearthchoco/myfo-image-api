@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "lib": ["ES2016"],
+      "module": "CommonJS",
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "target": "ES2016",
+      "outDir": ".build",
+      "typeRoots": [
+        "node_modules/@types",
+        "image.d.ts"
+      ]
+    },
+    "include": ["src/**/*.ts", "serverless.ts", "handler.ts", "images.d.ts"],
+    "exclude": [
+      "node_modules/**/*",
+      ".serverless/**/*",
+      ".webpack/**/*",
+      "_warmup/**/*",
+      ".vscode/**/*"
+    ]
+  }

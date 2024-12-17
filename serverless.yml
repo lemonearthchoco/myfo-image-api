@@ -1,0 +1,32 @@
+org: lemonearthchoco
+app: myfo-image-api
+service: myfo-image-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: 'node16'
+    define: { 'require.resolve': undefined }
+    platform: 'node'
+    concurrency: 10
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+package:
+  individually: true
+
+functions:
+  imageUploadHandler:
+    handler: handler.imageUploadHandler
+    events:
+      - httpApi:
+          path: /myfo/images
+          method: post
