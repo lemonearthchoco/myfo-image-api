@@ -1,20 +1,21 @@
 import { S3Client, PutObjectCommand }  from '@aws-sdk/client-s3';
 import busboy, { Busboy } from 'busboy';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function imageUploadHandler(event: any) {
     const formData = await parseFormData(event);
-    
-    for (const file of formData.image) {
-        console.log(file);
-    }
+    console.log(formData);
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
 
+    const key = `${process.env.APP_NAME}/${year}/${month}/${uuidv4()}_${formData.image[0].filename}`;
     const command = new PutObjectCommand({
-        Bucket: 'lemonearthchoco',
-        Key: `myfo/{year}/{month}`,
-        Body: ''
+        Bucket: process.env.S3_BUCKET,
+        Key: key,
+        Body: formData.image[1]
     });
     
-    const s3Client = new S3Client({ region: 'ap-northeast2 '})
+    const s3Client = new S3Client({ region: process.env.AWS_REGION })
     const result = await s3Client.send(command);
 
     return {
@@ -22,7 +23,7 @@ export async function imageUploadHandler(event: any) {
         body: JSON.stringify(
           {
             message: "Image Upload Success!",
-            imageUrl: ""
+            imageUrl: encodeURI(`${process.env.BUCKET_LOCATION}/${key}`)
           },
           null,
           2

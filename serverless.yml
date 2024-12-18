@@ -3,9 +3,16 @@ app: myfo-image-api
 service: myfo-image-api
 frameworkVersion: '3'
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs18.x
+  environment:
+    APP_NAME: ${env.APP_NAME}
+    S3_BUCKET: ${env.S3_BUCKET}
+    AWS_REGION: ${env.AWS_REGION}
+
 
 custom:
   esbuild:
@@ -20,6 +27,7 @@ custom:
 plugins:
   - serverless-esbuild
   - serverless-offline
+  - serverless-dotenv-plugin
 package:
   individually: true
 
