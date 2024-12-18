@@ -14,7 +14,7 @@ export async function imageUploadHandler(event: any) {
         Body: formData.image[1]
     });
     
-    const s3Client = new S3Client({ region: process.env.AWS_REGION })
+    const s3Client = new S3Client({ region: process.env.REGION })
     await s3Client.send(command);
 
     return {

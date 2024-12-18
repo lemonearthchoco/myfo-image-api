@@ -1,5 +1,3 @@
-org: lemonearthchoco
-app: myfo-image-api
 service: myfo-image-api
 frameworkVersion: '3'
 
@@ -11,7 +9,15 @@ provider:
   environment:
     APP_NAME: ${env.APP_NAME}
     S3_BUCKET: ${env.S3_BUCKET}
-    AWS_REGION: ${env.AWS_REGION}
+    REGION: ${env.REGION}
+  region: ap-northeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"       # 객체 업로드 권한
+        - "s3:PutObjectAcl"    # ACL 설정 권한 (예: public-read)
+      Resource:
+        - "arn:aws:s3:::lemonearthchoco/*"
 
 
 custom:
